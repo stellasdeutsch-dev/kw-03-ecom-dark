@@ -1,0 +1,17 @@
+import { chromium } from '/Users/shyngysnarseyit/Downloads/alterna/pdf-guides/node_modules/playwright/index.mjs';
+const b = await chromium.launch({ channel: 'chrome', args: ['--mute-audio'] });
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+const errs = []; p.on('pageerror', e => errs.push(String(e)));
+await p.goto('http://localhost:8603/', { waitUntil: 'networkidle' });
+const out = {};
+await p.click('#program .tile[data-m="3"]'); out.module = await p.textContent('#program .prog-name');
+await p.click('#program .extra[data-open="5"]'); out.extra = await p.textContent('#program .prog-name');
+await p.click('#inside .gtab[data-t="1"]'); out.tabVisible = await p.isVisible('#inside .gpane[data-t="1"]');
+await p.click('#inside .gpane[data-t="1"] .gtile[data-s="2"]'); out.shot = await p.getAttribute('#inside .gpane[data-t="1"] .g-big', 'src');
+await p.click('#path .pnext'); out.slide = await p.isVisible('#path .pslide[data-i="1"]');
+await p.click('#faq .qa:nth-child(3) .qa-q'); out.faq = await p.getAttribute('#faq .qa:nth-child(3) .qa-q', 'aria-expanded');
+const hover = await p.$('.btn-red'); await hover.hover(); await p.waitForTimeout(400); out.btnHoverTransform = await hover.evaluate(e => getComputedStyle(e).transform);
+const rm = await b.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+await rm.goto('http://localhost:8603/', { waitUntil: 'networkidle' });
+out.reducedReveal = await rm.evaluate(() => getComputedStyle(document.querySelector('.reveal')).opacity + ' ' + getComputedStyle(document.querySelector('.au-ring')).animationName);
+out.errors = errs; console.log(JSON.stringify(out, null, 1)); await b.close();
