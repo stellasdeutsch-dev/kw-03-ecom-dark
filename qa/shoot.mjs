@@ -3,7 +3,7 @@ import { chromium } from '/Users/shyngysnarseyit/Downloads/alterna/pdf-guides/no
 const BASE = process.argv[2] || 'http://localhost:8603/';
 const OUT = new URL('./shots/', import.meta.url).pathname;
 const widths = [1440, 834, 390];
-const pages = [['en', 'en/'], ['en-lesson', 'en/lesson/'], ['tr', 'tr/'], ['tr-lesson', 'tr/lesson/']];
+const pages = [['en', 'en/'], ['tr', 'tr/']];
 const browser = await chromium.launch({ channel: 'chrome', args: ['--mute-audio'] });
 const report = [];
 for (const [name, path] of pages) for (const w of widths) {

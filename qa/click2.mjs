@@ -11,5 +11,5 @@ for (const lang of ['en', 'tr']) {
   await p.click('#program .tile[data-m="2"]'); out[lang + '_module'] = await p.textContent('#program .prog-name');
   out[lang + '_wa'] = await p.$$eval('a[href*="wa.me"]', a => a.length);
 }
-for (const [from, to] of [['', '/en/'], ['lesson/', '/en/lesson/']]) { await p.goto(BASE + from, { waitUntil: 'networkidle' }); out['redirect_' + (from || 'root')] = new URL(p.url()).pathname.endsWith(to); }
+for (const [from, to] of [['', '/en/'], ['lesson/', '/en/'], ['en/lesson/', '/en/'], ['tr/lesson/', '/tr/']]) { await p.goto(BASE + from, { waitUntil: 'networkidle' }); out['redirect_' + (from || 'root')] = new URL(p.url()).pathname.endsWith(to); }
 console.log(JSON.stringify(out)); await b.close();

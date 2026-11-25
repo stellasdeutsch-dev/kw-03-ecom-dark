@@ -2,9 +2,10 @@
 """Сборка сайта №03 одной командой: python3 build.py
 
 Берёт gh/content.en.json и gh/content.tr.json и пишет:
-  gh/en/index.html, gh/en/lesson/index.html  (Dias English)
-  gh/tr/index.html, gh/tr/lesson/index.html  (Alterna Timur)
-  gh/index.html и gh/lesson/index.html       (перенаправление на /en/ и /en/lesson/)
+  gh/en/index.html  (Dias English)
+  gh/tr/index.html  (Alterna Timur)
+  gh/index.html, gh/lesson/, gh/en/lesson/, gh/tr/lesson/  (перенаправления: корень и /lesson/ на /en/,
+  /en/lesson/ на /en/, /tr/lesson/ на /tr/; версий без рекламы нет)
 Данные вшиваются в страницу, поэтому отдельного запроса за JSON нет.
 """
 import json
@@ -71,13 +72,13 @@ def main():
         data = json.loads((ROOT / f'content.{lang}.json').read_text(encoding='utf-8'))
         blob = json.dumps(data, ensure_ascii=False).replace('</', '<\\/')
         meta = data['meta']
-        for mode, sub, base in (('full', f'{lang}/', '../'), ('lesson', f'{lang}/lesson/', '../../')):
-            write(ROOT / sub / 'index.html', PAGE.format(
-                title=esc(meta['title']), desc=esc(meta['description']), theme=meta.get('themeColor', '#0a0a0c'),
-                base=base, mode=mode, data=blob,
-                robots='<meta name="robots" content="noindex">\n' if mode == 'lesson' else ''))
+        write(ROOT / lang / 'index.html', PAGE.format(
+            title=esc(meta['title']), desc=esc(meta['description']), theme=meta.get('themeColor', '#0a0a0c'),
+            base='../', mode='full', data=blob, robots=''))
+        # версий без рекламы нет: старый адрес lesson/ ведёт на рекламную версию своей вариации
+        write(ROOT / lang / 'lesson' / 'index.html', REDIRECT.format(to='../'))
     write(ROOT / 'index.html', REDIRECT.format(to='en/'))
-    write(ROOT / 'lesson' / 'index.html', REDIRECT.format(to='../en/lesson/'))
+    write(ROOT / 'lesson' / 'index.html', REDIRECT.format(to='../en/'))
 
 
 if __name__ == '__main__':
