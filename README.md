@@ -2,6 +2,12 @@
 
 Копия дизайна с Behance (лендинг «E-commerce, товарный бизнес», 11 блоков). Образец лежит в `design/` (`behance/` в полном размере, `screens/` со скриншотами владельца).
 
+Ссылки:
+- сайт: https://stellasdeutsch-dev.github.io/kw-03-ecom-dark/
+- без рекламы: https://stellasdeutsch-dev.github.io/kw-03-ecom-dark/lesson/
+- Figma: https://www.figma.com/design/npeeZaZxt42ZofasIKG8Qr
+- публикация: ветка `gh-pages` = содержимое `gh/` (`git subtree split --prefix gh -b gh-pages && git push -f origin gh-pages`)
+
 Публикуется папка `gh/`:
 - `gh/index.html` — гайд + реклама Dias English и Alterna Timur;
 - `gh/lesson/index.html` — тот же гайд без рекламы, с короткой концовкой.
