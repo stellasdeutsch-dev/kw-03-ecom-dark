@@ -468,6 +468,19 @@ p, li { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; }
 .tl-r { color: var(--red-2); } .tl-y { color: var(--yellow); }
 .th-links a:hover { color: #fff; }
 
+
+/* Одна платформа на странице: один автор, один тариф */
+.sp-list.n1 { grid-template-columns: minmax(0, 560px); justify-content: center; }
+.tcards.n1 { grid-template-columns: minmax(0, 400px); }
+/* Цели (подход «По целям») */
+.goals { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 44px; }
+.goal { padding: 13px 22px; border-radius: 40px; border: 1px solid #e2e2e2; background: #fff; font: 700 14px/1.2 var(--f-head); color: var(--ink); transition: background-color .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease), color .25s var(--ease); }
+.goal:hover { border-color: var(--ink); transform: translateY(-2px); }
+.goal.on { background: var(--red); border-color: var(--red); color: #fff; }
+.goals + .pslider { margin-top: 40px; }
+.browser .g-big { max-height: 440px; width: 100%; object-fit: contain; object-position: top center; }
+@media (max-width: 600px) { .goal { padding: 11px 16px; font-size: 13px; } }
+
 /* ============ Адаптив ============ */
 @media (max-width: 1240px) {
   .chips, .hero-title, .hero-cta { margin-left: 120px; }

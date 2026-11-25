@@ -3,7 +3,7 @@ import { chromium } from '/Users/shyngysnarseyit/Downloads/alterna/pdf-guides/no
 const BASE = process.argv[2] || 'http://localhost:8603/';
 const OUT = new URL('./shots/', import.meta.url).pathname;
 const widths = [1440, 834, 390];
-const pages = [['full', ''], ['lesson', 'lesson/']];
+const pages = [['en', 'en/'], ['en-lesson', 'en/lesson/'], ['tr', 'tr/'], ['tr-lesson', 'tr/lesson/']];
 const browser = await chromium.launch({ channel: 'chrome', args: ['--mute-audio'] });
 const report = [];
 for (const [name, path] of pages) for (const w of widths) {
@@ -29,7 +29,7 @@ for (const [name, path] of pages) for (const w of widths) {
   });
   await page.screenshot({ path: `${OUT}${name}-${w}-top.png` });
   await page.screenshot({ path: `${OUT}${name}-${w}-full.png`, fullPage: true });
-  for (const id of ['authors', 'inside', 'price']) {
+  for (const id of ['authors', 'path', 'price']) {
     const el = await page.$('#' + id);
     if (el) await el.screenshot({ path: `${OUT}${name}-${w}-${id}.png` });
   }

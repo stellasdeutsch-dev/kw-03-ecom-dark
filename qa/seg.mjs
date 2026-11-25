@@ -8,6 +8,6 @@ await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y
 await p.waitForTimeout(1200);
 const ids = await p.evaluate(() => [...document.querySelectorAll('[data-block]')].map((s, i) => s.id || 'b' + i));
 let i = 0;
-for (const id of ids) { const el = await p.$('#' + id); await el.screenshot({ path: new URL(`./shots/seg-${w}-${(path||'full').replace('/','')}-${String(i++).padStart(2,'0')}-${id}.png`, import.meta.url).pathname }); }
+for (const id of ids) { const el = await p.$('#' + id); await el.screenshot({ path: new URL(`./shots/seg-${w}-${(path||'root').replace(/\//g,'-')}-${String(i++).padStart(2,'0')}-${id}.png`, import.meta.url).pathname }); }
 console.log(ids.join(' '));
 await b.close();

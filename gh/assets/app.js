@@ -183,7 +183,7 @@
     }).join('');
     return '<section class="speakers" id="' + b.id + '" data-block="Реклама платформы: авторы">' +
       '<div class="wrap"><div class="sp-panel"><div class="sp-head"><i class="dbox"></i><h2 class="h2 center ink">' + md(b.title) + '</h2><i class="dbox"></i></div>' +
-      '<ul class="sp-list">' + items + '</ul></div>' +
+      '<ul class="sp-list n' + b.items.length + '">' + items + '</ul></div>' +
       '<div class="sp-tab"><p>' + md(b.intro) + '</p><div class="btn-row">' + b.buttons.map(function (x) { return btn(x); }).join('') + '</div></div>' +
       '</div></section>';
   };
@@ -209,7 +209,7 @@
     return '<section class="program gallery dark" id="' + b.id + '" data-block="Реклама платформы: внутри">' +
       '<div class="wrap"><div class="frame"><i class="h hA"></i><i class="h hB"></i><i class="h hC"></i><i class="h hD"></i>' +
       '<div class="bg-word" aria-hidden="true">' + esc(b.bgWord) + '</div>' +
-      '<h2 class="h2 center">' + esc(b.title) + '</h2><div class="gtabs" role="tablist">' + tabs + '</div>' + panes +
+      '<h2 class="h2 center">' + esc(b.title) + '</h2>' + (b.tabs.length > 1 ? '<div class="gtabs" role="tablist">' + tabs + '</div>' : '') + panes +
       '</div></div></section>';
   };
 
@@ -225,6 +225,7 @@
       '<div class="wrap"><div class="path-panel">' +
         '<div class="path-head"><h2 class="h2 ink">' + md(b.title) + ' <span class="ytag">' + esc(b.tag) + '</span></h2>' +
         '<div class="path-side"><i class="sd-a">A</i>' + ic('fire', 'side-fire') + '<p>' + md(b.side) + '</p><i class="sd-b">B</i></div></div>' +
+        (b.slides.length > 1 && b.slides[0].goal ? '<div class="goals" role="tablist" aria-label="Цели">' + b.slides.map(function (s, i) { return '<button class="goal' + (i === 0 ? ' on' : '') + '" type="button" role="tab" aria-selected="' + (i === 0) + '" data-i="' + i + '">' + esc(s.goal) + '</button>'; }).join('') + '</div>' : '') +
         '<div class="pslider"><button class="pnav pprev" type="button" aria-label="Предыдущий">' + ic('left') + '</button>' + slides +
         '<button class="pnav pnext" type="button" aria-label="Следующий">' + ic('right') + '</button></div>' +
       '</div></div></section>';
@@ -252,10 +253,10 @@
     return '<section class="tariffs" id="' + b.id + '" data-block="Реклама платформы: стоимость">' +
       '<div class="t-stripe" aria-hidden="true"></div>' +
       '<div class="wrap"><h2 class="h2 center">' + framed(b.title) + '</h2><ul class="tcards n' + b.cards.length + '">' + cards + '</ul>' +
-      '<div class="mentor reveal"><div class="mentor-in"><h3>' + esc(m.title) + '</h3>' +
+      (m ? '<div class="mentor reveal"><div class="mentor-in"><h3>' + esc(m.title) + '</h3>' +
         '<p class="m-pill"><i class="m-av">' + ic('chat') + '</i><span>' + md(m.pill) + '</span><i class="m-dot"></i></p><i class="m-line"></i>' +
         '<div class="m-row"><i class="m-gear">' + ic('gear') + '</i><p>' + md(m.note) + '</p>' + btn({ text: m.button, href: m.href, style: 'red' }, 'btn-sm') + '</div></div>' +
-        '<div class="m-person">' + img(m.person) + '</div></div>' +
+        '<div class="m-person">' + img(m.person) + '</div></div>' : '') +
       '</div></section>';
   };
 
@@ -365,13 +366,17 @@
   // Точка А / Б: слайдер
   document.querySelectorAll('.pslider').forEach(function (sl) {
     var slides = sl.querySelectorAll('.pslide'), cur = 0;
-    function go(d) {
+    var chips = sl.parentNode.querySelectorAll('.goal');
+    function show(n) {
       slides[cur].classList.remove('on'); slides[cur].hidden = true;
-      cur = (cur + d + slides.length) % slides.length;
+      cur = (n + slides.length) % slides.length;
       slides[cur].hidden = false; void slides[cur].offsetWidth; slides[cur].classList.add('on');
+      chips.forEach(function (c, i) { c.classList.toggle('on', i === cur); c.setAttribute('aria-selected', i === cur); });
     }
-    sl.querySelector('.pprev').addEventListener('click', function () { go(-1); });
-    sl.querySelector('.pnext').addEventListener('click', function () { go(1); });
+    sl.querySelector('.pprev').addEventListener('click', function () { show(cur - 1); });
+    sl.querySelector('.pnext').addEventListener('click', function () { show(cur + 1); });
+    chips.forEach(function (c) { c.addEventListener('click', function () { show(+c.getAttribute('data-i')); }); });
+    if (slides.length < 2) sl.querySelectorAll('.pnav').forEach(function (n) { n.hidden = true; });
   });
 
   // Вопросы: аккордеон
