@@ -177,7 +177,7 @@
 
   R.speakers = function (b) {
     var items = b.items.map(function (it, i) {
-      return '<li class="sp-item reveal" style="--d:' + (i * 0.08) + 's"><a class="sp-photo" href="' + esc(href(it.href)) + '"' + ext(it.href) + '>' + img({ src: it.img, alt: it.alt, w: 520, h: 520 }) + '</a>' +
+      return '<li class="sp-item reveal" style="--d:' + (i * 0.08) + 's"><a class="sp-photo" href="' + esc(href(it.href)) + '"' + ext(it.href) + '>' + img({ src: it.img, alt: it.alt, w: it.w || 520, h: it.h || 520 }) + '</a>' +
         '<div class="sp-body"><h3>' + md(it.name) + '</h3>' + (it.sub ? '<p class="sp-sub">' + esc(it.sub) + '</p>' : '') +
         '<div class="ribbon"><b>' + esc(it.ribbonBig) + '</b><span>' + esc(it.ribbonSmall) + '</span></div></div></li>';
     }).join('');
@@ -217,7 +217,7 @@
     var slides = b.slides.map(function (s, i) {
       return '<div class="pslide' + (i === 0 ? ' on' : '') + '" data-i="' + i + '"' + (i === 0 ? '' : ' hidden') + '>' +
         '<div class="pt pt-a"><p class="pt-head"><i class="ring"></i>Точка А <span class="pt-tag">' + esc(s.a.tag) + '</span></p><p>' + md(s.a.text) + '</p></div>' +
-        '<div class="pt-photo"><p class="pt-name">' + ic('right', 'arr arr-l') + esc(s.name) + ic('left', 'arr arr-r') + '</p>' + img({ src: s.photo, alt: s.alt, w: 520, h: 520 }) + '<i class="pt-fire">' + ic('fire') + ic('fire') + ic('fire') + '</i><p class="pt-bottom">' + esc(s.bottom) + '</p></div>' +
+        '<div class="pt-photo"><p class="pt-name">' + ic('right', 'arr arr-l') + esc(s.name) + ic('left', 'arr arr-r') + '</p>' + img({ src: s.photo, alt: s.alt, w: s.w || 520, h: s.h || 520 }) + '<i class="pt-fire">' + ic('fire') + ic('fire') + ic('fire') + '</i><p class="pt-bottom">' + esc(s.bottom) + '</p></div>' +
         '<div class="pt pt-b"><p class="pt-head"><i class="ring on"></i>Точка Б <span class="pt-tag">' + esc(s.b.tag) + '</span></p><p>' + md(s.b.text) + '</p></div>' +
       '</div>';
     }).join('');
