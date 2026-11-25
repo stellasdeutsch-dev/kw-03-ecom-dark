@@ -429,8 +429,6 @@ p, li { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; }
 .au-badge-ic { width: 52px; height: 52px; margin: -26px 0 10px; background: #f6e7ae; border-radius: 0 0 6px 6px; display: grid; place-items: center; font-size: 28px; color: #a68b35; }
 .au-badge-in b { font: 800 14px/1 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: #3a3420; }
 .au-badge-in span { font-size: 12px; margin-top: 8px; line-height: 1.4; }
-#author-timur .au-person { right: 16%; width: 46%; }
-#author-timur .au-badge { right: 1.5%; top: 70px; width: 230px; height: 230px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ============ 11. Вопросы ============ */
@@ -579,9 +577,7 @@ p, li { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; }
   .au-checks { padding-left: 40px; }
   .au-checks li::before { display: none; }
   .au-person { position: relative; right: auto; width: 76%; margin: 30px auto 0; }
-  .au-badge, #author-timur .au-badge { width: 190px; height: 190px; top: auto; bottom: 30px; right: 10px; }
-  #author-timur .au-person { right: auto; width: 86%; }
-  #author-timur .au-badge { right: auto; left: 10px; }
+  .au-badge { width: 190px; height: 190px; top: auto; bottom: 30px; right: 10px; }
 
   .th-grid { grid-template-columns: 1fr; }
 }
