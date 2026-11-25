@@ -17,4 +17,4 @@
 | author-timur.webp | /tr/ «Автор Alterna Timur» | ~/dias/timur-video/IMG_2867.HEIC | Тимур: то же, целое фото 3:4 |
 | who-1.webp … who-5.webp | /en/ и /tr/ «Кому подойдёт гайд?» | сгенерированы в ElevenLabs (gpt-image-2.5), лист из 5 человек | не Диас и не Тимур, вымышленные люди; прямоугольные кадры с белым фоном, без вырезки |
 
-Без людей: фоны (hero-bg, result-bg, author-bg, spheres-bg, thanks-bg), 3D-круги why-1…3 (вырезаны как предметы, край почищен defringe.py), скриншоты платформ scr-en-*, scr-tr-*, кадры разделов goal-en-1…5, goal-tr-1, goal-tr-2, goal-tr-4, goal-tr-5.
+Без людей: фоны (hero-bg, result-bg, author-bg, spheres-bg, thanks-bg), 3D-круги why-1…3 (вырезаны как предметы, край почищен defringe.py), скриншоты платформ scr-en-*, scr-tr-*, кадры разделов goal-en-1…5, goal-tr-1, goal-tr-2, goal-tr-4, goal-tr-5, предметы по теме языка lang-en (книги, карточки Hello и Thank you, лондонский автобус) и lang-tr (турецкий чай, карточки Merhaba и Çay, Галатская башня): сгенерированы в ElevenLabs, вырезаны как предметы, край почищен defringe.py.

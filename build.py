@@ -6,9 +6,11 @@
   gh/tr/index.html  (Alterna Timur)
   gh/index.html, gh/lesson/, gh/en/lesson/, gh/tr/lesson/  (перенаправления: корень и /lesson/ на /en/,
   /en/lesson/ на /en/, /tr/lesson/ на /tr/; версий без рекламы нет)
-Данные вшиваются в страницу, поэтому отдельного запроса за JSON нет.
+HTML всех блоков собирается заранее через node и gh/assets/render.js и вшивается в <main>,
+поэтому без JS весь контент виден. app.js только добавляет поведение и анимации.
 """
 import json
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent / 'gh'
@@ -29,12 +31,12 @@ PAGE = '''<!doctype html>
 <link rel="preload" href="{base}media/hero-bg.webp" as="image">
 <link rel="stylesheet" href="{base}assets/fonts.css">
 <link rel="stylesheet" href="{base}assets/style.css">
+<script>document.documentElement.classList.add('js');addEventListener('load',function(){{if(!window.__live)document.documentElement.classList.remove('js')}})</script>
 </head>
 <body>
-<main id="app"></main>
-<noscript><p style="padding:40px;text-align:center">Для этой страницы нужен JavaScript.</p></noscript>
-<script>window.SITE_MODE = '{mode}'; window.SITE_BASE = '{base}';
-window.SITE = {data};</script>
+<main id="app">{html}</main>
+<script>window.SITE_BASE = '{base}';</script>
+<script src="{base}assets/render.js" defer></script>
 <script src="{base}assets/app.js" defer></script>
 </body>
 </html>
@@ -61,6 +63,18 @@ def esc(s):
     return s.replace('&', '&amp;').replace('"', '&quot;').replace('<', '&lt;')
 
 
+NODE = """
+const r = require(process.argv[1]); let s = ''; process.stdin.setEncoding('utf8');
+process.stdin.on('data', c => s += c).on('end', () => process.stdout.write(r.render(JSON.parse(s), process.argv[2])));
+"""
+
+
+def prerender(data, base):
+    out = subprocess.run(['node', '-e', NODE, str(ROOT / 'assets' / 'render.js'), base],
+                         input=json.dumps(data, ensure_ascii=False), capture_output=True, text=True, check=True)
+    return out.stdout
+
+
 def write(path, text):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding='utf-8')
@@ -70,11 +84,10 @@ def write(path, text):
 def main():
     for lang in ('en', 'tr'):
         data = json.loads((ROOT / f'content.{lang}.json').read_text(encoding='utf-8'))
-        blob = json.dumps(data, ensure_ascii=False).replace('</', '<\\/')
         meta = data['meta']
         write(ROOT / lang / 'index.html', PAGE.format(
             title=esc(meta['title']), desc=esc(meta['description']), theme=meta.get('themeColor', '#0a0a0c'),
-            base='../', mode='full', data=blob, robots=''))
+            base='../', html=prerender(data, '../'), robots=''))
         # версий без рекламы нет: старый адрес lesson/ ведёт на рекламную версию своей вариации
         write(ROOT / lang / 'lesson' / 'index.html', REDIRECT.format(to='../'))
     write(ROOT / 'index.html', REDIRECT.format(to='en/'))
